@@ -153,7 +153,7 @@ body[data-theme="kitty"] .knob{ left:23px; }
 <div class="floaters" id="floaters"></div>
 
 <div class="toggle-wrap">
-  <span id="labelLeft">🖤 Kuromi</span>
+  <span id="labelLeft">💀 Kuromi</span>
   <div class="switch" onclick="toggleTheme()"><div class="knob"></div></div>
   <span id="labelRight">🎀 Kitty</span>
 </div>
@@ -167,7 +167,7 @@ body[data-theme="kitty"] .knob{ left:23px; }
   </div>
 
   <div class="card" id="card">
-    <div class="deco-top" id="decoTop">👿 💜 👿</div>
+    <div class="deco-top" id="decoTop">💀 💜 💀</div>
     <h2>hi kids,</h2>
     <div class="message">thank u sudah mewarnai hari" magangku di sini yeah, fun fact hari pertama aku magang dan blm kenal kalian rasanya aku males bgt tiap hari wfo dan lelah skliii, tapi setelah kenal kalian, aku malah excited buat ke kantor, bahkan kalo bisa ga perlu ada weekend deh mwheheh.
 
@@ -186,13 +186,21 @@ lopyu 💌</div>
 function openCard(){
   document.getElementById('envelope').style.display = 'none';
   document.getElementById('card').style.display = 'block';
+  const bgm = document.getElementById('bgm');
+  const status = document.getElementById('audioStatus');
+  bgm.play().then(()=>{
+    status.textContent = '🎵 lagi muter';
+  }).catch((err)=>{
+    status.textContent = '⚠️ gagal: ' + err.name + ' — coba klik Play Lagu manual';
+    console.error('Audio error:', err);
+  });
 }
 
 function toggleTheme(){
   const body = document.body;
   const isKitty = body.getAttribute('data-theme') === 'kitty';
   body.setAttribute('data-theme', isKitty ? 'kuromi' : 'kitty');
-  document.getElementById('decoTop').textContent = isKitty ? '👿 💜 👿' : '🎀 🩷 🎀';
+  document.getElementById('decoTop').textContent = isKitty ? '💀 💜 💀' : '🎀 🩷 🎀';
   renderFloaters();
 }
 
@@ -200,7 +208,7 @@ function renderFloaters(){
   const wrap = document.getElementById('floaters');
   wrap.innerHTML = '';
   const kitty = document.body.getAttribute('data-theme') === 'kitty';
-  const icons = kitty ? ['🎀','🩷','⭐','🤍'] : ['👿','💜','⭐','🖤'];
+  const icons = kitty ? ['🎀','🩷','⭐','🤍'] : ['💀','💜','⭐','🖤'];
   for(let i=0;i<18;i++){
     const s = document.createElement('span');
     s.textContent = icons[Math.floor(Math.random()*icons.length)];
@@ -219,8 +227,9 @@ function toggleMusic(){
   if(bgm.paused){
     bgm.play().then(()=>{
       status.textContent = '🎵 lagi muter';
-    }).catch(()=>{
-      status.textContent = '⚠️ file backsound.mp3 belum ada di folder yang sama';
+    }).catch((err)=>{
+      status.textContent = '⚠️ gagal: ' + err.name + ' — ' + err.message;
+      console.error('Audio error:', err);
     });
   } else {
     bgm.pause();
