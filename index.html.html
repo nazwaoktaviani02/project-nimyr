@@ -226,7 +226,7 @@ function toggleMusic(){
   const status = document.getElementById('audioStatus');
   if(bgm.paused){
     bgm.play().then(()=>{
-      status.textContent = '🎵 lagi muter';
+      status.textContent = '🎵 enjoy';
     }).catch((err)=>{
       status.textContent = '⚠️ gagal: ' + err.name + ' — ' + err.message;
       console.error('Audio error:', err);
